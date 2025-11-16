@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Imersão 5g - Senai</title>
+	<link rel="stylesheet" href="globalStyles.css">
+</head>
+<body>
+    <div class="topo">
+        <div></div>
+        <div class="titulo">
+            <h1>Chat MQTT - Senai Centro 4.0</h1>
+            <span id="txttopico"></span>
+        </div>
+        <div id="led" class="led led_desconectado"></div>
+    </div>
+    <div class="chat">
+        <div class="painel" id="chatmensagens"></div>
+        <div class="painel">
+            <div class="campoForm">
+                <label for="txtnome">Nome:</label>
+                <input type="texto" id="txtnome" title="Nome">
+            </div>
+            <div class="campoForm">
+                <label for="txtmensagem">Mensagem:</label>
+                <textarea id="txtmensagem" title="Mensagem" maxlength="250"></textarea>
+            </div>
+            <div>
+                <button onclick="publish()">enviar</button>
+            </div>
+            <div>
+                <pre>
+Formato da mensagem interna, em caso de envio direto pela plataforma do HiveMQ:
+{"nome":"Seu nome","msg":"Sua mensagem"}
+                </pre>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
