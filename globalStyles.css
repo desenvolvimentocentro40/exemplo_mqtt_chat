@@ -91,6 +91,17 @@ button{
     cursor: pointer;
 }
 
+.connectInfo{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.connectInfo img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
 .led{
     border: 4px solid #000;
     width: 20px;
@@ -112,4 +123,17 @@ button{
 
 .led_conectado{
     background-color: #0c0;
+}
+
+.animaIconReconnect{
+    animation: girar 2s linear infinite;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg); /* Estado inicial: 0 graus de rotação */
+    }
+    to {
+        transform: rotate(360deg); /* Estado final: 360 graus de rotação */
+    }
 }
