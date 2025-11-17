@@ -2,8 +2,9 @@ const txtnome=document.getElementById("txtnome")
 const txtmensagem=document.getElementById("txtmensagem")
 const chatmensagens=document.getElementById("chatmensagens")
 const led=document.getElementById("led")
+const reload=document.getElementById("reload")
 const txttopico=document.getElementById("txttopico") 
-const topico="SenaiCentro4.0Contagem/2025/chat"
+const topico="SenaiCentro4.0Contagem/2026-1/chat"
 
 txttopico.innerHTML=`Tópico: ${topico}`
 
@@ -11,11 +12,12 @@ const BROKER_HOST = 'mqtt-dashboard.com'
 const BROKER_PORT = 8884
 const BROKER_USER = ''
 const BROKER_PASS = ''
-const CLIENT_ID = "exmploLampada_" + parseInt(Math.random() * 10000)
+const CLIENT_ID = "exmploChat_" + parseInt(Math.random() * 10000)
 
 let client = new Paho.MQTT.Client(BROKER_HOST, BROKER_PORT, CLIENT_ID)
 
 function conectarMQTT(){
+    reload.classList.add("animaIconReconnect")
     const connectOptions = {
         useSSL: true,
         userName: BROKER_USER,
@@ -32,8 +34,9 @@ function conectarMQTT(){
     led.classList.add("led_conectando")
 }
 
-const desconectarMQTT=()=>{
+function desconectarMQTT(){
     if (client && client.isConnected && client.isConnected()) {
+        reload.classList.remove("animaIconReconnect")
         client.disconnect()
         led.classList.remove("led_erro")
         led.classList.remove("led_conectado")
@@ -43,6 +46,7 @@ const desconectarMQTT=()=>{
 }
 
 function onConnect(){
+    reload.classList.remove("animaIconReconnect")
     led.classList.remove("led_erro")
     led.classList.remove("led_conectando")
     led.classList.remove("led_desconectado")
@@ -74,7 +78,7 @@ function publish(){
     }
     const pahoMessage = new Paho.MQTT.Message(JSON.stringify(dados))
     pahoMessage.destinationName = topico
-    pahoMessage.retained = true    
+    //pahoMessage.retained = true    
     client.send(pahoMessage)
     txtmensagem.value=""
     txtmensagem.focus()
@@ -105,6 +109,11 @@ function criarBlocoMensagem(msg){
     div.appendChild(p_msg)
     chatmensagens.appendChild(div)
     chatmensagens.scrollTop = chatmensagens.scrollHeight
+}
+
+function reconectar(){
+    desconectarMQTT()
+    conectarMQTT()
 }
 
 client.onConnectionLost = onConnectionLost
