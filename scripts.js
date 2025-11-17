@@ -107,5 +107,4 @@ function criarBlocoMensagem(msg){
 client.onConnectionLost = onConnectionLost
 client.onMessageArrived = onMessageArrived
 
-
 conectarMQTT()
