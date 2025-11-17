@@ -2,7 +2,6 @@ const txtnome=document.getElementById("txtnome")
 const txtmensagem=document.getElementById("txtmensagem")
 const chatmensagens=document.getElementById("chatmensagens")
 const led=document.getElementById("led")
-// **ATENÇÃO:** O elemento 'txttopico' não estava declarado, assumindo que você tem ele no HTML
 const txttopico=document.getElementById("txttopico") 
 const topico="SenaiCentro4.0Contagem/2025/chat"
 
@@ -47,12 +46,8 @@ function onConnect(){
     led.classList.remove("led_erro")
     led.classList.remove("led_conectando")
     led.classList.remove("led_desconectado")
-    led.classList.add("led_conectado")
-    
-    // *** 1. LIMPAR MENSAGENS AO CONECTAR ***
+    led.classList.add("led_conectado")   
     chatmensagens.innerHTML = ""
-    
-    // 2. Subscrever (o broker envia a mensagem retida aqui)
 	client.subscribe(topico)
 }
 
@@ -79,13 +74,8 @@ function publish(){
     }
     const pahoMessage = new Paho.MQTT.Message(JSON.stringify(dados))
     pahoMessage.destinationName = topico
-    
-    // *** 3. ADICIONAR O FLAG RETENÇÃO ***
-    pahoMessage.retained = true 
-    
+    pahoMessage.retained = true    
     client.send(pahoMessage)
-    
-    // Manter limpeza e foco na publicação
     txtmensagem.value=""
     txtmensagem.focus()
 }
@@ -93,7 +83,6 @@ function publish(){
 function onMessageArrived(message){
 	const topico = message.destinationName
 	const payload = message.payloadString
-    // Esta função será chamada automaticamente pelo broker para a mensagem retida (e novas)
     criarBlocoMensagem(payload)
 }
 
@@ -115,11 +104,7 @@ function criarBlocoMensagem(msg){
     div.appendChild(p_de)
     div.appendChild(p_msg)
     chatmensagens.appendChild(div)
-    
-    // *** NOVO: Rolar para a última mensagem ***
     chatmensagens.scrollTop = chatmensagens.scrollHeight
-    
-    // *** REMOVIDO: Limpeza e foco do input. Isso deve ser feito APENAS em publish() ***
 }
 
 client.onConnectionLost = onConnectionLost
