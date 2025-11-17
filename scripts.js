@@ -72,6 +72,7 @@ function publish(){
     }
     const pahoMessage = new Paho.MQTT.Message(JSON.stringify(dados))
     pahoMessage.destinationName = topico
+	pahoMessage.retained = true
     client.send(pahoMessage)
 }
 
@@ -105,5 +106,6 @@ function criarBlocoMensagem(msg){
 
 client.onConnectionLost = onConnectionLost
 client.onMessageArrived = onMessageArrived
+
 
 conectarMQTT()
